@@ -4,7 +4,6 @@ using System.Threading;
 using PoeHUD.Hud.Settings;
 using PoeHUD.Plugins;
 using PoeHUD.Poe.Components;
-using PoeHUD.Poe.RemoteMemoryObjects;
 using static BladeFlurryCharges.WinApiMouse;
 
 namespace BladeFlurryCharges
@@ -14,15 +13,8 @@ namespace BladeFlurryCharges
         public override void Render()
         {
             var buffs = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>().Buffs;
-
             if(buffs.Exists(b => b.Name == "charged_attack" && b.Charges==6))
                 MouseTools.MouseRightDown();
-
-            //foreach (Buff buff in playerHealth.Buffs)
-            //    {
-            //        if (buff.Name == "charged_attack")
-            //            if (buff.Charges == 6)
-            //    }
         }
     }
 
