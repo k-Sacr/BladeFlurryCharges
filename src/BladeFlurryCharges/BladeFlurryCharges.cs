@@ -14,17 +14,17 @@ namespace BladeFlurryCharges
         {
             var buffs = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>().Buffs;
             if(buffs.Exists(b => b.Name == "charged_attack" && b.Charges==6))
-                MouseTools.MouseRightDown();
+                MouseTools.MouseLeftClickEvent();
         }
     }
 
     internal static class MouseTools
     {
-       public static void MouseRightDown()
+        public static void MouseLeftClickEvent()
         {
-            MouseEvent(MouseEventFlags.RightUp);
+            MouseEvent(MouseEventFlags.LeftDown);
             Thread.Sleep(70);
-            MouseEvent(MouseEventFlags.RightDown);
+            MouseEvent(MouseEventFlags.LeftUp);
         }
 
         private static Point GetCursorPosition()
