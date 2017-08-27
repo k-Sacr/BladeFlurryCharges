@@ -12,6 +12,11 @@ namespace BladeFlurryCharges
     {
         public BladeFlurryChargesSettings()
         {
+            LeftClick = false;
         }
+
+
+        [Menu("Use Left Click", 1)]
+        public ToggleNode LeftClick { get; set; }
     }
 }

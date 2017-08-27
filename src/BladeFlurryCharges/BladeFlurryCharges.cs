@@ -16,7 +16,12 @@ namespace BladeFlurryCharges
             {
                 var buffs = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>().Buffs;
                 if (buffs.Exists(b => b.Name == "charged_attack" && b.Charges == 6))
-                    MouseTools.MouseLeftClickEvent();
+                {
+                    if (!Settings.LeftClick)
+                        MouseTools.MouseLeftClickEvent();
+                    else
+                        MouseTools.LeftClickVersion();
+                }
             }
         }
     }
@@ -28,6 +33,13 @@ namespace BladeFlurryCharges
             MouseEvent(MouseEventFlags.LeftDown);
             Thread.Sleep(70);
             MouseEvent(MouseEventFlags.LeftUp);
+        }
+
+        public static void LeftClickVersion()
+        {
+            MouseEvent(MouseEventFlags.LeftUp);
+            Thread.Sleep(70);
+            MouseEvent(MouseEventFlags.LeftDown);
         }
 
         private static Point GetCursorPosition()
@@ -50,16 +62,6 @@ namespace BladeFlurryCharges
         }
     }
 
-
-    public class BladeFlurryChargesSetting : SettingsBase
-    {
-        public BladeFlurryChargesSetting()
-        {
-            Enable = true;
-        }
-    }
-
-
     public static class WinApiMouse
     {
         [DllImport("user32.dll")]
@@ -68,7 +70,7 @@ namespace BladeFlurryCharges
 
         [DllImport("user32.dll")]
         public static extern void mouse_event(int dwFlags, int dx, int dy, int dwData, int dwExtraInfo);
-        
+
         #region Structs/Enums
 
         [Flags]
@@ -96,7 +98,7 @@ namespace BladeFlurryCharges
                 X = x;
                 Y = y;
             }
-            
+
         }
 
         #endregion
