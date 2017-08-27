@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Threading;
-using PoeHUD.Hud.Settings;
 using PoeHUD.Plugins;
 using PoeHUD.Poe.Components;
 using static BladeFlurryCharges.WinApiMouse;
