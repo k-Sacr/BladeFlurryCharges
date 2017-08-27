@@ -8,13 +8,21 @@ using static BladeFlurryCharges.WinApiMouse;
 
 namespace BladeFlurryCharges
 {
-    public class BladeFlurryCharges : BaseSettingsPlugin<BladeFlurryChargesSetting>
+    public class BladeFlurryCharges : BaseSettingsPlugin<BladeFlurryChargesSettings>
     {
         public override void Render()
         {
-            var buffs = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>().Buffs;
-            if(buffs.Exists(b => b.Name == "charged_attack" && b.Charges==6))
-                MouseTools.MouseLeftClickEvent();
+            if (Settings.Enable)
+            {
+                var buffs = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>().Buffs;
+                if (buffs.Exists(b => b.Name == "charged_attack" && b.Charges == 6))
+                {
+                    if (!Settings.LeftClick)
+                        MouseTools.MouseLeftClickEvent();
+                    else
+                        MouseTools.LeftClickVersion(Settings.ReleaseRightClick);
+                }
+            }
         }
     }
 
@@ -22,9 +30,21 @@ namespace BladeFlurryCharges
     {
         public static void MouseLeftClickEvent()
         {
-            MouseEvent(MouseEventFlags.LeftDown);
+            MouseEvent(MouseEventFlags.RightDown);
             Thread.Sleep(70);
+            MouseEvent(MouseEventFlags.RightUp);
+        }
+
+        public static void LeftClickVersion(bool releaseRightClick)
+        {
+            if (releaseRightClick)
+            {
+                MouseEvent(MouseEventFlags.RightUp);
+            }
+
             MouseEvent(MouseEventFlags.LeftUp);
+            Thread.Sleep(70);
+            MouseEvent(MouseEventFlags.LeftDown);
         }
 
         private static Point GetCursorPosition()
@@ -47,16 +67,6 @@ namespace BladeFlurryCharges
         }
     }
 
-
-    public class BladeFlurryChargesSetting : SettingsBase
-    {
-        public BladeFlurryChargesSetting()
-        {
-            Enable = true;
-        }
-    }
-
-
     public static class WinApiMouse
     {
         [DllImport("user32.dll")]
@@ -65,7 +75,7 @@ namespace BladeFlurryCharges
 
         [DllImport("user32.dll")]
         public static extern void mouse_event(int dwFlags, int dx, int dy, int dwData, int dwExtraInfo);
-        
+
         #region Structs/Enums
 
         [Flags]
@@ -93,7 +103,7 @@ namespace BladeFlurryCharges
                 X = x;
                 Y = y;
             }
-            
+
         }
 
         #endregion
