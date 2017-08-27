@@ -20,7 +20,7 @@ namespace BladeFlurryCharges
                     if (!Settings.LeftClick)
                         MouseTools.MouseLeftClickEvent();
                     else
-                        MouseTools.LeftClickVersion();
+                        MouseTools.MouseRightClickEvent();
                 }
             }
         }
@@ -35,7 +35,7 @@ namespace BladeFlurryCharges
             MouseEvent(MouseEventFlags.LeftUp);
         }
 
-        public static void LeftClickVersion()
+        public static void MouseRightClickEvent()
         {
             MouseEvent(MouseEventFlags.RightDown);
             Thread.Sleep(70);
