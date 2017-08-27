@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Threading;
-using PoeHUD.Hud.Settings;
 using PoeHUD.Plugins;
 using PoeHUD.Poe.Components;
 using static BladeFlurryCharges.WinApiMouse;
@@ -20,7 +19,7 @@ namespace BladeFlurryCharges
                     if (!Settings.LeftClick)
                         MouseTools.MouseLeftClickEvent();
                     else
-                        MouseTools.LeftClickVersion(Settings.ReleaseRightClick);
+                        MouseTools.MouseRightClickEvent();
                 }
             }
         }
@@ -30,21 +29,16 @@ namespace BladeFlurryCharges
     {
         public static void MouseLeftClickEvent()
         {
+            MouseEvent(MouseEventFlags.LeftDown);
+            Thread.Sleep(70);
+            MouseEvent(MouseEventFlags.LeftUp);
+        }
+
+        public static void MouseRightClickEvent()
+        {
             MouseEvent(MouseEventFlags.RightDown);
             Thread.Sleep(70);
             MouseEvent(MouseEventFlags.RightUp);
-        }
-
-        public static void LeftClickVersion(bool releaseRightClick)
-        {
-            if (releaseRightClick)
-            {
-                MouseEvent(MouseEventFlags.RightUp);
-            }
-
-            MouseEvent(MouseEventFlags.LeftUp);
-            Thread.Sleep(70);
-            MouseEvent(MouseEventFlags.LeftDown);
         }
 
         private static Point GetCursorPosition()
