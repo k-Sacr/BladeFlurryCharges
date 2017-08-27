@@ -20,7 +20,7 @@ namespace BladeFlurryCharges
                     if (!Settings.LeftClick)
                         MouseTools.MouseLeftClickEvent();
                     else
-                        MouseTools.LeftClickVersion(Settings.ReleaseRightClick);
+                        MouseTools.LeftClickVersion();
                 }
             }
         }
@@ -30,21 +30,16 @@ namespace BladeFlurryCharges
     {
         public static void MouseLeftClickEvent()
         {
+            MouseEvent(MouseEventFlags.LeftDown);
+            Thread.Sleep(70);
+            MouseEvent(MouseEventFlags.LeftUp);
+        }
+
+        public static void LeftClickVersion()
+        {
             MouseEvent(MouseEventFlags.RightDown);
             Thread.Sleep(70);
             MouseEvent(MouseEventFlags.RightUp);
-        }
-
-        public static void LeftClickVersion(bool releaseRightClick)
-        {
-            if (releaseRightClick)
-            {
-                MouseEvent(MouseEventFlags.RightUp);
-            }
-
-            MouseEvent(MouseEventFlags.LeftUp);
-            Thread.Sleep(70);
-            MouseEvent(MouseEventFlags.LeftDown);
         }
 
         private static Point GetCursorPosition()
