@@ -8,13 +8,16 @@ using static BladeFlurryCharges.WinApiMouse;
 
 namespace BladeFlurryCharges
 {
-    public class BladeFlurryCharges : BaseSettingsPlugin<BladeFlurryChargesSetting>
+    public class BladeFlurryCharges : BaseSettingsPlugin<BladeFlurryChargesSettings>
     {
         public override void Render()
         {
-            var buffs = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>().Buffs;
-            if(buffs.Exists(b => b.Name == "charged_attack" && b.Charges==6))
-                MouseTools.MouseLeftClickEvent();
+            if (Settings.Enable)
+            {
+                var buffs = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>().Buffs;
+                if (buffs.Exists(b => b.Name == "charged_attack" && b.Charges == 6))
+                    MouseTools.MouseLeftClickEvent();
+            }
         }
     }
 
