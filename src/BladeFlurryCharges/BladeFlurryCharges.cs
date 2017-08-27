@@ -39,7 +39,6 @@ namespace BladeFlurryCharges
         {
             if (releaseRightClick)
             {
-                MouseEvent(MouseEventFlags.RightDown);
                 MouseEvent(MouseEventFlags.RightUp);
             }
 
