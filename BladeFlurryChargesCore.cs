@@ -1,21 +1,34 @@
 ﻿using System;
 using System.Collections;
 using System.Runtime.InteropServices;
-using PoeHUD.Framework;
-using PoeHUD.Framework.Helpers;
-using PoeHUD.Plugins;
-using PoeHUD.Poe.Components;
+using ExileCore;
+using ExileCore.PoEMemory.Components;
+using ExileCore.Shared;
 using static BladeFlurryCharges.WinApiMouse;
 
 namespace BladeFlurryCharges
 {
-    public class BladeFlurryCharges : BaseSettingsPlugin<BladeFlurryChargesSettings>
+    public class BladeFlurryChargesCore : BaseSettingsPlugin<BladeFlurryChargesSettings>
     {
-        private Coroutine _mainWork;
-        public override void Initialise()
+        private Coroutine _mainWork { get; set; }
+        public override bool Initialise()
         {
-            _mainWork = (new Coroutine(RealeaseCharge(), nameof(BladeFlurryCharges), "BladeFlurry Realease"))
-                .AutoRestart(GameController.CoroutineRunnerParallel).RunParallel();
+            Name = "Blade Flurry Charges";
+
+            _mainWork = new Coroutine(() => RealeaseCharge(), new WaitTime(Settings.TimeCheckCharges), this, "BladeFlurry Realease");
+            Core.ParallelRunner.Run(_mainWork);
+
+            Settings.TimeCheckCharges.OnValueChanged += (sender, b) =>
+            {
+                UpdateCoroutineWaitRender();
+            };
+
+            return base.Initialise();
+        }
+
+        private void UpdateCoroutineWaitRender()
+        {
+            _mainWork.UpdateCondtion(new WaitTime(Settings.TimeCheckCharges));
         }
 
         IEnumerator RealeaseCharge()
