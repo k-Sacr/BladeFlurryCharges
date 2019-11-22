@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Runtime.InteropServices;
-using System.Threading;
+using PoeHUD.Framework;
+using PoeHUD.Framework.Helpers;
 using PoeHUD.Plugins;
 using PoeHUD.Poe.Components;
 using static BladeFlurryCharges.WinApiMouse;
@@ -9,35 +11,49 @@ namespace BladeFlurryCharges
 {
     public class BladeFlurryCharges : BaseSettingsPlugin<BladeFlurryChargesSettings>
     {
-        public override void Render()
+        private Coroutine _mainWork;
+        public override void Initialise()
         {
-            if (Settings.Enable)
+            _mainWork = (new Coroutine(RealeaseCharge(), nameof(BladeFlurryCharges), "BladeFlurry Realease"))
+                .AutoRestart(GameController.CoroutineRunnerParallel).RunParallel();
+        }
+
+        IEnumerator RealeaseCharge()
+        {
+            while (true)
             {
-                var buffs = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>().Buffs;
+                var buffs = GameController.EntityListWrapper.Player.GetComponent<Life>().Buffs;
                 if (buffs.Exists(b => b.Name == "charged_attack" && b.Charges == 6))
                 {
                     if (!Settings.LeftClick)
-                        MouseTools.MouseLeftClickEvent();
+                        yield return  MouseTools.MouseLeftClickEvent();
                     else
-                        MouseTools.MouseRightClickEvent();
+                        yield return  MouseTools.MouseRightClickEvent();
                 }
+                yield return new WaitTime(Settings.TimeCheckCharges);
             }
         }
+        
+        public override void Render()
+        {
+            return;
+        }
     }
-
+   
     internal static class MouseTools
-    {
-        public static void MouseLeftClickEvent()
+    { 
+        public static IEnumerator MouseLeftClickEvent()
         {
             MouseEvent(MouseEventFlags.LeftDown);
-            Thread.Sleep(70);
+            yield return new WaitTime(50);
             MouseEvent(MouseEventFlags.LeftUp);
         }
 
-        public static void MouseRightClickEvent()
+        public static IEnumerator MouseRightClickEvent()
         {
+            
             MouseEvent(MouseEventFlags.RightDown);
-            Thread.Sleep(70);
+            yield return new WaitTime(50);
             MouseEvent(MouseEventFlags.RightUp);
         }
 
