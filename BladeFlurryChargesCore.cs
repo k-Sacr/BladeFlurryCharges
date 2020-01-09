@@ -15,7 +15,7 @@ namespace BladeFlurryCharges
         {
             Name = "Blade Flurry Charges";
 
-            _mainWork = new Coroutine(() => RealeaseCharge(), new WaitTime(Settings.TimeCheckCharges), this, "BladeFlurry Realease");
+            _mainWork = new Coroutine(RealeaseCharge(), this, "BladeFlurry Realease");
             Core.ParallelRunner.Run(_mainWork);
 
             Settings.TimeCheckCharges.OnValueChanged += (sender, b) =>
@@ -45,11 +45,6 @@ namespace BladeFlurryCharges
                 }
                 yield return new WaitTime(Settings.TimeCheckCharges);
             }
-        }
-        
-        public override void Render()
-        {
-            return;
         }
     }
    
