@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using System.Runtime.InteropServices;
 using ExileCore;
 using ExileCore.PoEMemory.Components;
-using ExileCore.Shared;
+using ExileCore.Shared.Coroutines;
 using static BladeFlurryCharges.WinApiMouse;
 
 namespace BladeFlurryCharges
@@ -35,7 +36,7 @@ namespace BladeFlurryCharges
         {
             while (true)
             {
-                var buffs = GameController.EntityListWrapper.Player.GetComponent<Life>().Buffs;
+                var buffs = GameController.EntityListWrapper.Player.GetComponent<Life>().Buffs.ToList();
                 if (buffs.Exists(b => b.Name == "charged_attack" && b.Charges == 6))
                 {
                     if (!Settings.LeftClick)
