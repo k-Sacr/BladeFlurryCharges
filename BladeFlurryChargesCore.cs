@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using ExileCore;
 using ExileCore.PoEMemory.Components;
-using ExileCore.Shared.Coroutines;
+using ExileCore.Shared;
 using static BladeFlurryCharges.WinApiMouse;
 
 namespace BladeFlurryCharges
